@@ -1,40 +1,41 @@
-﻿
-
-#include <iostream>
-#include <cmath>
+﻿#include <iostream>
 
 using namespace std;
 
-// {b > 1 ∧ n > 0}
-//fun log(int b, int n) return int r
-// {b^r ≤ n < b^(r + 1)}
 
 int log(int b, int n) {
-	
-	return (int)(log(n) / log(b));
+	int ac = 1, i = 0;
+
+	while (ac<=n) {
+		ac *= b;
+		i++;
+	}
+
+	return i - 1;
 }
+
 
 
 void resuelve() {
-	int b, n;
 
-	
+	int b, n ;
+
 	cin >> b;
 	cin >> n;
 
-	int r = log(b, n);
-
-	
-	// escribir resultado
-	cout << r << endl;
+	cout<< log(b,n)<<endl;
 }
+
+
+
 
 int main() {
 
-	int n;
-	cin >> n;
-	for (int i = 0; i<n; ++i)
+	int r = 0;
+	cin >> r;
+	for ( int i =0; i < r; i++){
 		resuelve();
+	}
+
 	return 0;
-	
 }
