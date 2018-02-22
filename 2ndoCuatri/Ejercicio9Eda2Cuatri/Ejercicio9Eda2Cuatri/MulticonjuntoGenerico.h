@@ -14,16 +14,9 @@ public:
 	MulticonjuntoGenerico();
 
 	void crearConjuntoVacio();
-	void esVacio()const;
+	bool esVacio()const;
 	void añadirElem(const T& e);
-	/*
-	void Conjunto<T>::añadirElem(const T& e){
-	if ( _tam == MAX) throw ConjuntoLleno();
-	T_elementos[_tam] = e;
-	_tam++;
-
-	}
-	*/
+	
 	void estaEnMultiConjunto(const T& e)
 	int  multiplicidad(const T& e);
 	void eliminarOcurrenciaElem();
@@ -41,7 +34,7 @@ public:
 	}
 
 	template <class T>
-	void MulticonjuntoGenerico <T>::esVacio() {
+	void MulticonjuntoGenerico <T>::crearConjuntoVacio() {
 		return _tam == 0;
 	}
 
@@ -55,6 +48,10 @@ public:
 		return cont;
 	}
 
+	template <T>
+	bool MulticonjuntoGenerico<T>::esVacio() {
+		if (_elementos.length() == 0) return true;
+	}
 
 };
 #endif
