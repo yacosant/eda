@@ -1,0 +1,32 @@
+envia
+1
+sierra
+saludos
+Hola, Como estais?
+
+envia
+1
+gomez
+saludos
+Hola, hola.
+
+envia
+2
+garcia
+buenos dias
+Hola, Hola, Hola
+
+ultimos
+1
+
+consulta
+1
+
+consulta
+3
+
+elimina
+1
+
+elimina
+3
