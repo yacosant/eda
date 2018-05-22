@@ -80,6 +80,7 @@ void iPud::addToPlaylist(const Cancion& c){
 			songs.inserta(c, s); //actualizamos el valor (flag a true).
 		}
 	}
+	else throw ECancionNoExistente();
 }
 
 // devuelve la primera cancion de la lista de reproduccion
@@ -88,7 +89,7 @@ current: Devuelve la primera canción de la lista de reproducción. Si es vacía
 */
 Cancion iPud::current(){
 	if (playlist.esVacia()) throw ECancionNoExistente();
-	return playlist.elem(playlist.longitud() - 1);
+	return playlist.elem(0); 
 }
 
 // Devuelve el tiempo total de la lista de reproduccion
@@ -140,18 +141,29 @@ void iPud::deleteSong(const Cancion& c){
 
 
 // Registra la reproduccion de una cancion
+/*
+play: La primera canción de la lista de reproducción abandona la lista de reproducción y se registra como reproducida. 
+Si la lista es vacía la acción no tiene efecto.
+*/
 void iPud::play(){
-	Cancion c= current();
-	playlist.quita_final();
+	if (!playlist.esVacia()) {
+		Cancion c = current();
 
-	//Actualizar los flags de la cancion
-	SongInfo s= songs.valorPara(c);
-	s.inPlaylist = false;
-	s.played = true;
-	songs.inserta(c, s);
-	duration -= s.duration;
+		playlist.quita_final();
 
-	played.pon_final(c);
+		//Actualizar los flags de la cancion
+		SongInfo s = songs.valorPara(c);
+		s.inPlaylist = false;
+		s.played = true;
+		songs.inserta(c, s);
+		duration -= s.duration;
+
+		//Comprobamos que existe o no
+		Lista<Cancion>::Iterator i = getIterator(played, c);
+		if (i != played.end()) played.eliminar(i); //si exite, se elimina.
+
+		played.pon_final(c);
+	}
 }
 
 // Obtiene la lista con las N últimas canciones que se han reproducido (mediante la operación play), 
@@ -162,7 +174,7 @@ Lista<Cancion> iPud::recent(int n){
 	int j = 0;
 	Lista<Cancion> l;
 	while (j<n && i!=f){
-		l.pon_final(i.elem());
+		l.pon_ppio(i.elem());
 		i.next();
 		j++;
 	}
