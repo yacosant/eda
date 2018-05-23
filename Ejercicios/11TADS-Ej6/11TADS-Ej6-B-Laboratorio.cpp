@@ -105,20 +105,7 @@ Cancion iPud::current(){
 totalTime: Obtiene la suma de las duraciones de las cancione
 */
 int iPud::totalTime(){
-	if (playlist.esVacia())return 0;
 	return duration;
-}
-
-Lista<Cancion>::Iterator getIterator(Lista<Cancion> l, Cancion c) {
-	Lista<Cancion>::Iterator i = l.begin();
-	Lista<Cancion>::Iterator f = l.end();
-	bool fin = false;
-
-	while (!fin && i != f) {
-		if (c == i.elem()) fin = true;
-		else i.next();
-	}
-	return i;
 }
 
 // Elimina una cancion del ipud
