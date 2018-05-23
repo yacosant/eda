@@ -68,6 +68,8 @@ void iPud::addSong(const Cancion& c, const Artista& a, int d){
 addToPlaylist(S): Añade la canción S al final de la lista de reproducción. 
 Si la canción ya se encontraba en la lista entonces no se añade (es decir, la lista no tiene canciones repetidas). 
 Si la canción no está en el iPud se devuelve error.
+
+AL PRINCIPIO EN EL APARTADO (B)
 */
 void iPud::addToPlaylist(const Cancion& c){
 
@@ -77,11 +79,11 @@ void iPud::addToPlaylist(const Cancion& c){
 
 		if (s.itPlaylist!=playlist.end()) {//+++++++++++
 			//s.inPlaylist = true;
-			playlist.pon_final(c);
+			playlist.pon_ppio(c);
 			duration += s.duration;
 			songs.inserta(c, s); 
 			
-			s.itPlaylist = getIterator(playlist,c);//++++++++++++
+			s.itPlaylist = playlist.begin(); //getIterator(playlist,c);//++++++++++++
 		}
 	}
 	else throw ECancionNoExistente();
@@ -90,10 +92,12 @@ void iPud::addToPlaylist(const Cancion& c){
 // devuelve la primera cancion de la lista de reproduccion
 /*
 current: Devuelve la primera canción de la lista de reproducción. Si es vacía se devuelve error.
+
+LA ULTIMA EN EL APARTADO (B)
 */
 Cancion iPud::current(){
 	if (playlist.esVacia()) throw ECancionNoExistente();
-	return playlist.elem(0); 
+	return playlist.elem(playlist.longitud()-1); 
 }
 
 // Devuelve el tiempo total de la lista de reproduccion
@@ -104,11 +108,6 @@ int iPud::totalTime(){
 	if (playlist.esVacia())return 0;
 	return duration;
 }
-
-// Elimina una cancion del ipud
-/*
-deleteSong(S): Elimina todo rastro de la canción S. Si la canción no existe la operación no tiene efecto.
-*/
 
 Lista<Cancion>::Iterator getIterator(Lista<Cancion> l, Cancion c) {
 	Lista<Cancion>::Iterator i = l.begin();
@@ -122,19 +121,22 @@ Lista<Cancion>::Iterator getIterator(Lista<Cancion> l, Cancion c) {
 	return i;
 }
 
+// Elimina una cancion del ipud
+/*
+deleteSong(S): Elimina todo rastro de la canción S. Si la canción no existe la operación no tiene efecto.
+*/
+
+
 void iPud::deleteSong(const Cancion& c){
 	if (songs.contiene(c)) {
 		SongInfo s = songs.valorPara(c);
-		Lista<Cancion>::Iterator i = playlist.begin();
-
+		
 		if (s.itPlaylist!=playlist.end()) { //Para borrarla de la playlist
-			//i=getIterator(playlist, c);
 			playlist.eliminar(s.itPlaylist);//+++++++
 			duration -= s.duration;
 		}
 
 		if (s.itPlayed!=played.end()) { //para borrarla de las reproducidas
-			//i = getIterator(played, c);
 			played.eliminar(s.itPlayed);//+++++++
 		}
 
@@ -160,14 +162,16 @@ void iPud::play(){
 		//s.inPlaylist = false;
 		//s.played = true;
 		s.itPlaylist = playlist.end(); //++++++++++++
-		songs.inserta(c, s);
+		
 		duration -= s.duration;
 
 		//Comprobamos que existe o no
 		if(s.itPlayed!=played.end()) played.eliminar(s.itPlayed); //si exite, se elimina. //++++++++++++
+		
+		played.pon_ppio(c); //!!!!!! PRINCIPIO, PARA TENER EL ITERDOR A MANO.
+		s.itPlayed = played.begin();//getIterator(played, c);//++++++++++++
 
-		s.itPlayed= getIterator(played, c);//++++++++++++
-		played.pon_final(c);
+		songs.inserta(c, s); //actualizo objeto del diccionario	
 	}
 }
 
