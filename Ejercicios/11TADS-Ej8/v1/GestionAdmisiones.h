@@ -28,8 +28,8 @@ public:
    /**
      Operación de construcción
    */
-   Paciente(const string& nombre, unsigned int edad, const string& sintomas);	
-   
+   Paciente(const string& nombre, unsigned int edad, const string& sintomas, const Lista<CodigoPaciente>::Iterator i);
+
    /**
      Operaciones observadoras para consultar los distintos
 	 datos del paciente: su nombre, su edad y los síntomas que
@@ -38,11 +38,13 @@ public:
    unsigned int edad() const;	
    const string& nombre() const;
    const string& sintomas() const;	
+   const Lista<CodigoPaciente>::Iterator it() const;
 private:
    /** Campos para almacenar los datos del paciente */
   string _nombre;  
   string _sintomas;  
   unsigned int _edad;   
+  Lista<CodigoPaciente>::Iterator _i; //+++++++
 };
 
 
@@ -121,10 +123,10 @@ private:
   // Debe elegirse la representación más adecuada para implementar
   // eficientemente este TAD
 	
-	Lista<int> orden;
+	Lista<CodigoPaciente> orden;
 	//Si fuese necesario que elimnar fuese cosnta, metería un iterador que apunte a la posicion del codigo en la lista en Paciente si se pudiese modificar.
 	//O crearia una clase que contuviese los datos y el puntero, y esa clase la meteria en el diccionario como valor.
-	Diccionario<int, Paciente> pacientes;
+	Diccionario<CodigoPaciente, Paciente> pacientes;
 };
 
 #endif
